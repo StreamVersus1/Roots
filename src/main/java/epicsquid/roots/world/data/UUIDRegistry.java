@@ -22,19 +22,20 @@ public abstract class UUIDRegistry<T extends WorldSavedData> {
 	
 	@SuppressWarnings("unchecked")
 	public T getDataInternal(UUID id) {
+		try {
 		WorldServer server = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
 		MapStorage storage = server.getMapStorage();
-		if (storage == null) {
-			return null;
-		}
+
 		T data = (T) storage.getOrLoadData(clazz, nameConverter.apply(id));
-		
+
 		if (data == null) {
 			data = builder.apply(id);
 			server.getMapStorage().setData(nameConverter.apply(id), data);
 		}
-		
-		return data;
+			return data;
+		} catch(NullPointerException e){
+			return null;
+		}
 	}
 	
 	public T clearDataInternal(UUID id) {

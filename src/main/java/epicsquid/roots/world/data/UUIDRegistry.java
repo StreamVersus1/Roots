@@ -25,7 +25,7 @@ public abstract class UUIDRegistry<T extends WorldSavedData> {
 		WorldServer server = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
 		MapStorage storage = server.getMapStorage();
 		if (storage == null) {
-			throw new NullPointerException("Map storage is null");
+			return null;
 		}
 		T data = (T) storage.getOrLoadData(clazz, nameConverter.apply(id));
 		
